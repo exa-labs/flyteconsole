@@ -33,7 +33,7 @@ export function useWorkflowExecutionFiltersState() {
   return useExecutionFiltersState([
     useMultiFilterState({
       options: workflowExecutionStatusFilters,
-      defaultValue: [],
+      defaultValue: ['running'], // Default to showing "In Progress" executions
       filterKey: 'phase',
       label: filterLabels.status,
       listHeader: 'Filter By',
