@@ -40,3 +40,4 @@ yarn-error.log
 # generated data
 certificate
 .env
+.direnv

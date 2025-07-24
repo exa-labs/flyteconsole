@@ -31,7 +31,7 @@ export function useOnlyMyExecutionsFilterState({
   const isFlagEnabled = useFeatureFlag(FeatureFlag.OnlyMine);
   const onlyMineExecutionsSelectedValue = useOnlyMineSelectedValue(OnlyMyFilter.OnlyMyExecutions);
   const [onlyMyExecutionsValue, setOnlyMyExecutionsValue] = useState<boolean>(
-    isFlagEnabled ? onlyMineExecutionsSelectedValue : initialValue ?? false, // if flag is enable let's use the value from only mine
+    isFlagEnabled ? onlyMineExecutionsSelectedValue : initialValue ?? true, // Default to true to show only my executions
   );
   const defaultIsFilterDisabled = !apiContext;
 
