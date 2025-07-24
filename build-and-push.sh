@@ -48,6 +48,24 @@ else
     echo -e "${GREEN}Successfully logged into ECR.${NC}"
 fi
 
+# Check if ECR repository exists, create if it doesn't
+echo -e "${GREEN}Checking if ECR repository exists...${NC}"
+aws ecr describe-repositories --repository-names ${ECR_REPOSITORY} --region ${REGION} 2>/dev/null
+
+if [ $? -ne 0 ]; then
+    echo -e "${GREEN}Repository doesn't exist. Creating ECR repository...${NC}"
+    aws ecr create-repository --repository-name ${ECR_REPOSITORY} --region ${REGION}
+
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Failed to create ECR repository.${NC}"
+        [ -n "$DOCKER_CONFIG" ] && [ "$DOCKER_CONFIG" != "$HOME/.docker" ] && rm -rf "$DOCKER_CONFIG"
+        exit 1
+    fi
+    echo -e "${GREEN}Successfully created ECR repository.${NC}"
+else
+    echo -e "${GREEN}ECR repository already exists.${NC}"
+fi
+
 # Build the Docker image
 echo -e "${GREEN}Building Docker image...${NC}"
 docker build -t ${ECR_REPOSITORY}:${IMAGE_TAG} .
